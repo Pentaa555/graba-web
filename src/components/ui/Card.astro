@@ -1,0 +1,13 @@
+---
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title, class: className = '' } = Astro.props;
+---
+
+<article class={`card-surface p-4 ${className}`}>
+  {title && <h3 class="mono text-sm text-slate-300 mb-3">{title}</h3>}
+  <slot />
+</article>

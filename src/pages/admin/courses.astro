@@ -1,0 +1,8 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import CourseManager from '../../components/admin/CourseManager';
+---
+
+<DashboardLayout role="admin" title="Cursos | Admin">
+  <CourseManager client:load />
+</DashboardLayout>

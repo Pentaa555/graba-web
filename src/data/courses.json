@@ -1,0 +1,42 @@
+[
+  {
+    "id": "course-001",
+    "name": "Redes de Computadores",
+    "code": "SIS-301",
+    "teacherId": "teacher-001",
+    "teacherName": "Prof. Carlos Mendoza",
+    "studentIds": ["student-001", "student-002"],
+    "semester": "2026-1",
+    "faculty": "Ingenieria"
+  },
+  {
+    "id": "course-002",
+    "name": "Procesamiento de Lenguaje Natural",
+    "code": "SIS-410",
+    "teacherId": "teacher-002",
+    "teacherName": "Prof. Andrea Velasquez",
+    "studentIds": ["student-001", "student-003"],
+    "semester": "2026-1",
+    "faculty": "Ingenieria"
+  },
+  {
+    "id": "course-003",
+    "name": "Arquitectura de Software",
+    "code": "SIS-330",
+    "teacherId": "teacher-001",
+    "teacherName": "Prof. Carlos Mendoza",
+    "studentIds": ["student-002"],
+    "semester": "2026-1",
+    "faculty": "Ingenieria"
+  },
+  {
+    "id": "course-004",
+    "name": "Analitica de Datos",
+    "code": "SIS-420",
+    "teacherId": "teacher-002",
+    "teacherName": "Prof. Andrea Velasquez",
+    "studentIds": ["student-003"],
+    "semester": "2026-1",
+    "faculty": "Ciencias y Educacion"
+  }
+]

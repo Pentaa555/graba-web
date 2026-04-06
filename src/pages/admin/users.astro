@@ -1,0 +1,8 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import UserTable from '../../components/admin/UserTable';
+---
+
+<DashboardLayout role="admin" title="Usuarios | Admin">
+  <UserTable client:load />
+</DashboardLayout>

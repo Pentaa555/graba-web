@@ -1,0 +1,79 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import SessionCard from '../../components/student/SessionCard.astro';
+import sessions from '../../data/sessions.json';
+import courses from '../../data/courses.json';
+
+const byDateDesc = [...sessions].sort((a, b) => +new Date(b.date) - +new Date(a.date));
+---
+
+<DashboardLayout role="student" title="Sesiones | Estudiante">
+  <section class="space-y-4">
+    <div class="card-surface p-4 grid gap-3 md:grid-cols-4">
+      <label class="text-sm text-slate-300 grid gap-1">
+        Curso
+        <select id="course-filter" class="card-surface p-2 bg-transparent">
+          <option value="all">Todos</option>
+          {courses.map((course) => (
+            <option value={course.id}>{course.code}</option>
+          ))}
+        </select>
+      </label>
+
+      <label class="text-sm text-slate-300 grid gap-1">
+        Desde
+        <input id="date-start" type="date" class="card-surface p-2 bg-transparent" />
+      </label>
+
+      <label class="text-sm text-slate-300 grid gap-1">
+        Hasta
+        <input id="date-end" type="date" class="card-surface p-2 bg-transparent" />
+      </label>
+
+      <label class="text-sm text-slate-300 grid gap-1">
+        Estado
+        <select id="status-filter" class="card-surface p-2 bg-transparent">
+          <option value="all">Todos</option>
+          <option value="processed">Processed</option>
+          <option value="processing">Processing</option>
+          <option value="failed">Failed</option>
+          <option value="pending">Pending</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="session-grid" class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+      {byDateDesc.map((session) => (
+        <div data-session-card data-course={session.courseId} data-status={session.status} data-date={session.date}>
+          <SessionCard session={session} href={`/student/session/${session.id}`} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <script>
+    const cardNodes = Array.from(document.querySelectorAll('[data-session-card]'));
+    const courseFilter = document.getElementById('course-filter');
+    const statusFilter = document.getElementById('status-filter');
+    const dateStart = document.getElementById('date-start');
+    const dateEnd = document.getElementById('date-end');
+
+    function runFilters() {
+      const courseValue = courseFilter?.value ?? 'all';
+      const statusValue = statusFilter?.value ?? 'all';
+      const startValue = dateStart?.value ? new Date(dateStart.value) : null;
+      const endValue = dateEnd?.value ? new Date(dateEnd.value + 'T23:59:59') : null;
+
+      for (const node of cardNodes) {
+        const nodeDate = new Date(node.dataset.date || '');
+        const byCourse = courseValue === 'all' || node.dataset.course === courseValue;
+        const byStatus = statusValue === 'all' || node.dataset.status === statusValue;
+        const byStart = !startValue || nodeDate >= startValue;
+        const byEnd = !endValue || nodeDate <= endValue;
+        node.style.display = byCourse && byStatus && byStart && byEnd ? '' : 'none';
+      }
+    }
+
+    [courseFilter, statusFilter, dateStart, dateEnd].forEach((el) => el?.addEventListener('input', runFilters));
+  </script>
+</DashboardLayout>

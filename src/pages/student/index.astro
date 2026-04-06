@@ -1,0 +1,57 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import courses from '../../data/courses.json';
+import sessions from '../../data/sessions.json';
+import MetricCard from '../../components/ui/MetricCard.astro';
+import Card from '../../components/ui/Card.astro';
+import SessionCard from '../../components/student/SessionCard.astro';
+
+const activeCourses = courses.filter((course) => ['student-001', 'student-002', 'student-003'].some((id) => course.studentIds.includes(id)));
+const recentSessions = [...sessions].sort((a, b) => +new Date(b.date) - +new Date(a.date)).slice(0, 3);
+const totalHours = Math.round(sessions.reduce((acc, session) => acc + session.duration, 0) / 3600);
+---
+
+<DashboardLayout role="student" title="Dashboard Estudiante | SmartLecture UD">
+  <section class="space-y-4">
+    <div class="card-surface p-4">
+      <p class="text-slate-400">Bienvenido/a,</p>
+      <h2 id="student-greeting" class="mono text-2xl mt-1">Estudiante UD</h2>
+    </div>
+
+    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <MetricCard label="Sesiones disponibles" value={sessions.length} accent="cyan" />
+      <MetricCard label="Horas de contenido" value={totalHours} accent="violet" />
+      <MetricCard label="Cursos activos" value={activeCourses.length} accent="emerald" />
+    </div>
+
+    <Card title="Cursos activos">
+      <div class="grid gap-3 md:grid-cols-2">
+        {activeCourses.map((course) => (
+          <article class="card-surface p-3">
+            <p class="mono text-xs text-cyan-300">{course.code}</p>
+            <h3 class="font-semibold">{course.name}</h3>
+            <p class="text-sm text-slate-400 mt-1">{course.teacherName}</p>
+          </article>
+        ))}
+      </div>
+    </Card>
+
+    <Card title="Sesiones recientes">
+      <div class="grid gap-3 md:grid-cols-3">
+        {recentSessions.map((session) => (
+          <SessionCard session={session} href={`/student/session/${session.id}`} compact />
+        ))}
+      </div>
+    </Card>
+  </section>
+
+  <script type="module">
+    import { get } from 'nanostores';
+    import { currentUser } from '../../stores/auth';
+    const user = get(currentUser);
+    if (user) {
+      const target = document.getElementById('student-greeting');
+      if (target) target.textContent = user.name;
+    }
+  </script>
+</DashboardLayout>

@@ -1,0 +1,16 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import CourseSelector from '../../components/teacher/CourseSelector.astro';
+import SessionRecorder from '../../components/teacher/SessionRecorder';
+---
+
+<DashboardLayout role="teacher" title="Grabacion | Docente">
+  <section class="grid gap-4 lg:grid-cols-3">
+    <div class="lg:col-span-1">
+      <CourseSelector />
+    </div>
+    <div class="lg:col-span-2">
+      <SessionRecorder client:load />
+    </div>
+  </section>
+</DashboardLayout>

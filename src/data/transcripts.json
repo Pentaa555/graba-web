@@ -1,0 +1,177 @@
+[
+  {
+    "sessionId": "sess-001",
+    "segments": [
+      {
+        "id": "seg-001",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Mendoza",
+        "start": 0.0,
+        "end": 12.4,
+        "text": "Buenos dias, hoy vamos a estudiar la capa de transporte del modelo OSI y su rol en la comunicacion extremo a extremo.",
+        "relevant": true,
+        "confidence": 0.94,
+        "topics": ["Modelo OSI", "Capa de transporte"]
+      },
+      {
+        "id": "seg-002",
+        "speaker": "estudiante",
+        "speakerLabel": "Estudiante 3",
+        "start": 12.4,
+        "end": 15.1,
+        "text": "Eso es lo mismo que TCP?",
+        "relevant": true,
+        "confidence": 0.89,
+        "topics": ["TCP"]
+      },
+      {
+        "id": "seg-003",
+        "speaker": "estudiante",
+        "speakerLabel": "Estudiante 7",
+        "start": 15.1,
+        "end": 18.3,
+        "text": "Oye viste el partido anoche?",
+        "relevant": false,
+        "confidence": 0.97,
+        "topics": []
+      },
+      {
+        "id": "seg-004",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Mendoza",
+        "start": 18.3,
+        "end": 31.8,
+        "text": "TCP y UDP trabajan en transporte, pero TCP ofrece confiabilidad y control de congestion.",
+        "relevant": true,
+        "confidence": 0.95,
+        "topics": ["TCP vs UDP", "Control de congestion"]
+      },
+      {
+        "id": "seg-005",
+        "speaker": "estudiante",
+        "speakerLabel": "Estudiante 5",
+        "start": 31.8,
+        "end": 38.0,
+        "text": "Entonces UDP es mejor para videollamadas por latencia.",
+        "relevant": true,
+        "confidence": 0.91,
+        "topics": ["UDP", "Latencia"]
+      },
+      {
+        "id": "seg-006",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Mendoza",
+        "start": 38.0,
+        "end": 52.4,
+        "text": "Correcto, en aplicaciones de tiempo real se prioriza continuidad sobre retransmision.",
+        "relevant": true,
+        "confidence": 0.93,
+        "topics": ["Tiempo real", "Retransmision"]
+      },
+      {
+        "id": "seg-007",
+        "speaker": "estudiante",
+        "speakerLabel": "Estudiante 9",
+        "start": 52.4,
+        "end": 58.8,
+        "text": "Profe la tarea se entrega en PDF o notebook?",
+        "relevant": false,
+        "confidence": 0.92,
+        "topics": []
+      },
+      {
+        "id": "seg-008",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Mendoza",
+        "start": 58.8,
+        "end": 72.2,
+        "text": "En PDF con comparacion de trazas TCP y UDP y analisis de throughput.",
+        "relevant": true,
+        "confidence": 0.96,
+        "topics": ["Throughput", "TCP vs UDP"]
+      }
+    ]
+  },
+  {
+    "sessionId": "sess-002",
+    "segments": [
+      {
+        "id": "seg-101",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Velasquez",
+        "start": 0.0,
+        "end": 11.3,
+        "text": "Hoy vamos a revisar embeddings semanticos para representar palabras en espacios vectoriales.",
+        "relevant": true,
+        "confidence": 0.95,
+        "topics": ["Embeddings", "Representaciones"]
+      },
+      {
+        "id": "seg-102",
+        "speaker": "estudiante",
+        "speakerLabel": "Estudiante 2",
+        "start": 11.3,
+        "end": 17.9,
+        "text": "Word2Vec aprende por contexto local o global?",
+        "relevant": true,
+        "confidence": 0.9,
+        "topics": ["Word2Vec"]
+      },
+      {
+        "id": "seg-103",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Velasquez",
+        "start": 17.9,
+        "end": 31.6,
+        "text": "Aprende por contexto local con ventanas deslizantes, en arquitecturas CBOW y Skip-gram.",
+        "relevant": true,
+        "confidence": 0.94,
+        "topics": ["CBOW", "Skip-gram"]
+      },
+      {
+        "id": "seg-104",
+        "speaker": "estudiante",
+        "speakerLabel": "Estudiante 8",
+        "start": 31.6,
+        "end": 36.2,
+        "text": "El laboratorio abre el sabado?",
+        "relevant": false,
+        "confidence": 0.88,
+        "topics": []
+      },
+      {
+        "id": "seg-105",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Velasquez",
+        "start": 36.2,
+        "end": 50.4,
+        "text": "Luego comparamos embeddings estaticos con modelos contextualizados como BETO.",
+        "relevant": true,
+        "confidence": 0.93,
+        "topics": ["BETO", "Modelos contextualizados"]
+      },
+      {
+        "id": "seg-106",
+        "speaker": "estudiante",
+        "speakerLabel": "Estudiante 4",
+        "start": 50.4,
+        "end": 58.2,
+        "text": "La metrica F1 la usamos para evaluar la clasificacion final?",
+        "relevant": true,
+        "confidence": 0.92,
+        "topics": ["F1", "Evaluacion"]
+      },
+      {
+        "id": "seg-107",
+        "speaker": "docente",
+        "speakerLabel": "Prof. Velasquez",
+        "start": 58.2,
+        "end": 72.9,
+        "text": "Si, precision, recall y F1 para medir desempeno del clasificador.",
+        "relevant": true,
+        "confidence": 0.95,
+        "topics": ["Precision", "Recall", "F1"]
+      }
+    ]
+  }
+]

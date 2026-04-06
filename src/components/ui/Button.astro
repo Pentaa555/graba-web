@@ -1,0 +1,31 @@
+---
+interface Props {
+  variant?: 'primary' | 'ghost' | 'danger';
+  type?: 'button' | 'submit' | 'reset';
+  href?: string;
+  class?: string;
+}
+
+const { variant = 'primary', type = 'button', href, class: className = '' } = Astro.props;
+
+const classes = {
+  primary:
+    'interactive inline-flex items-center justify-center rounded-[var(--radius-sm)] px-4 py-2 font-medium bg-[var(--accent-cyan)] text-[#001018] hover:brightness-110',
+  ghost:
+    'interactive inline-flex items-center justify-center rounded-[var(--radius-sm)] px-4 py-2 font-medium border border-[var(--border-subtle)] hover:border-[var(--border-active)]',
+  danger:
+    'interactive inline-flex items-center justify-center rounded-[var(--radius-sm)] px-4 py-2 font-medium bg-[var(--accent-red)]/20 text-red-200 border border-red-500/30 hover:bg-[var(--accent-red)]/30'
+};
+---
+
+{
+  href ? (
+    <a class={`${classes[variant]} ${className}`} href={href}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={`${classes[variant]} ${className}`}>
+      <slot />
+    </button>
+  )
+}

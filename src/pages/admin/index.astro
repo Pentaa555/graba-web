@@ -1,0 +1,45 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import sessions from '../../data/sessions.json';
+import users from '../../data/users.json';
+import courses from '../../data/courses.json';
+import SystemMetrics from '../../components/admin/SystemMetrics.astro';
+import StorageUsage from '../../components/admin/StorageUsage.astro';
+import { format } from 'date-fns';
+
+const latest = [...sessions].sort((a, b) => +new Date(b.date) - +new Date(a.date)).slice(0, 6);
+---
+
+<DashboardLayout role="admin" title="Dashboard Admin">
+  <section class="space-y-4">
+    <SystemMetrics sessions={sessions} users={users} courses={courses} />
+
+    <div class="grid gap-4 xl:grid-cols-2">
+      <StorageUsage />
+
+      <div class="card-surface p-4 overflow-x-auto">
+        <h3 class="mono text-lg mb-3">Actividad reciente</h3>
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="text-left text-slate-400">
+              <th>Sesion</th>
+              <th>Curso</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {latest.map((session) => (
+              <tr class="border-t border-cyan-900/30">
+                <td>{session.id}</td>
+                <td>{session.courseName}</td>
+                <td><span class={`status-badge status-${session.status}`}>{session.status}</span></td>
+                <td>{format(new Date(session.date), 'yyyy-MM-dd HH:mm')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</DashboardLayout>

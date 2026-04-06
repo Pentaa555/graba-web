@@ -1,0 +1,20 @@
+---
+interface Props {
+  label: string;
+  tone?: 'cyan' | 'violet' | 'emerald' | 'amber' | 'red' | 'muted';
+  class?: string;
+}
+
+const { label, tone = 'muted', class: className = '' } = Astro.props;
+
+const tones = {
+  cyan: 'text-cyan-200 bg-cyan-500/15 border-cyan-500/45',
+  violet: 'text-violet-200 bg-violet-500/15 border-violet-500/45',
+  emerald: 'text-emerald-200 bg-emerald-500/15 border-emerald-500/45',
+  amber: 'text-amber-200 bg-amber-500/15 border-amber-500/45',
+  red: 'text-red-200 bg-red-500/15 border-red-500/45',
+  muted: 'text-slate-300 bg-slate-600/20 border-slate-500/45'
+};
+---
+
+<span class={`status-badge border ${tones[tone]} ${className}`}>{label}</span>

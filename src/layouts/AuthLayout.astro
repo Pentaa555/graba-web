@@ -1,0 +1,17 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Acceso | SmartLecture UD' } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <main class="min-h-screen grid place-items-center p-6">
+    <section class="w-full max-w-xl card-surface p-8 md:p-10">
+      <slot />
+    </section>
+  </main>
+</BaseLayout>

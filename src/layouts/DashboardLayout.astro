@@ -1,0 +1,219 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  role: 'student' | 'teacher' | 'admin';
+  title?: string;
+}
+
+const { role, title = 'Dashboard | SmartLecture UD' } = Astro.props;
+
+const navByRole = {
+  student: [
+    { href: '/student', label: 'Dashboard' },
+    { href: '/student/sessions', label: 'Sesiones' }
+  ],
+  teacher: [
+    { href: '/teacher', label: 'Dashboard' },
+    { href: '/teacher/record', label: 'Grabar Clase' },
+    { href: '/teacher/sessions', label: 'Historial' }
+  ],
+  admin: [
+    { href: '/admin', label: 'Dashboard' },
+    { href: '/admin/users', label: 'Usuarios' },
+    { href: '/admin/courses', label: 'Cursos' },
+    { href: '/admin/system', label: 'Sistema' }
+  ]
+} as const;
+
+const navItems = navByRole[role];
+const pathname = Astro.url.pathname;
+---
+
+<BaseLayout title={title}>
+  <div class="dashboard-shell">
+    <input id="sidebar-toggle" class="sidebar-toggle" type="checkbox" />
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>SmartLecture UD</h1>
+        <p class="mono">Universidad Distrital</p>
+      </div>
+      <nav>
+        {
+          navItems.map((item) => (
+            <a class={`nav-link ${pathname === item.href ? 'active' : ''}`} href={item.href}>
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </aside>
+
+    <section class="main-area">
+      <header class="topbar">
+        <label class="mobile-toggle" for="sidebar-toggle">Menu</label>
+        <div>
+          <p class="mono text-sm text-slate-400">Rol activo</p>
+          <p class="text-sm uppercase tracking-widest">{role}</p>
+        </div>
+        <div class="user-block">
+          <span id="topbar-user">Sin autenticar</span>
+          <button id="logout-btn" class="logout">Salir</button>
+        </div>
+      </header>
+      <main class="content-wrap">
+        <slot />
+      </main>
+    </section>
+  </div>
+
+  <script define:vars={{ role }} type="module">
+    import { get } from 'nanostores';
+    import { currentUser, logout } from '../stores/auth';
+
+    const user = get(currentUser);
+    if (!user || user.role !== role) {
+      window.location.href = '/login';
+    } else {
+      const userLabel = document.getElementById('topbar-user');
+      if (userLabel) {
+        userLabel.textContent = `${user.name} (${user.email})`;
+      }
+    }
+
+    const logoutButton = document.getElementById('logout-btn');
+    logoutButton?.addEventListener('click', () => {
+      logout();
+      window.location.href = '/login';
+    });
+  </script>
+</BaseLayout>
+
+<style>
+  .dashboard-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    background: transparent;
+  }
+
+  .sidebar {
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .brand h1 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--accent-cyan);
+  }
+
+  .brand p {
+    margin: 0.4rem 0 0;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .nav-link {
+    padding: 0.7rem 0.8rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--text-primary);
+    border-color: var(--border-active);
+    background: rgba(0, 212, 255, 0.08);
+  }
+
+  .main-area {
+    min-width: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .topbar {
+    border-bottom: 1px solid var(--border-subtle);
+    background: rgba(15, 22, 36, 0.8);
+    backdrop-filter: blur(6px);
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .user-block {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .logout {
+    border: 1px solid var(--border-subtle);
+    background: transparent;
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 0.45rem 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .logout:hover {
+    border-color: var(--border-active);
+    box-shadow: var(--glow-cyan);
+  }
+
+  .content-wrap {
+    overflow: auto;
+    padding: 1.25rem;
+  }
+
+  .sidebar-toggle,
+  .mobile-toggle {
+    display: none;
+  }
+
+  @media (max-width: 920px) {
+    .dashboard-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      position: fixed;
+      z-index: 30;
+      inset: 0 auto 0 0;
+      width: 240px;
+      transform: translateX(-100%);
+      transition: transform 0.25s ease;
+    }
+
+    .mobile-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border-subtle);
+      padding: 0.4rem 0.7rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+    }
+
+    .sidebar-toggle:checked ~ .sidebar {
+      transform: translateX(0);
+    }
+  }
+</style>

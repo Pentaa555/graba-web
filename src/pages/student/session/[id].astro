@@ -1,0 +1,32 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import SummaryPanel from '../../../components/student/SummaryPanel.astro';
+import SessionExperience from '../../../components/student/SessionExperience';
+import sessions from '../../../data/sessions.json';
+import transcripts from '../../../data/transcripts.json';
+
+export async function getStaticPaths() {
+  return sessions.map((session) => ({ params: { id: session.id } }));
+}
+
+const { id } = Astro.params;
+const session = sessions.find((item) => item.id === id);
+if (!session) {
+  return Astro.redirect('/student/sessions');
+}
+
+const transcript = transcripts.find((item) => item.sessionId === session.id);
+const segments = transcript?.segments ?? [];
+---
+
+<DashboardLayout role="student" title={`Sesion ${session.id} | Estudiante`}>
+  <section class="grid gap-4 xl:grid-cols-5">
+    <div class="xl:col-span-3">
+      <SessionExperience client:load duration={session.duration} segments={segments} />
+    </div>
+
+    <div class="xl:col-span-2">
+      <SummaryPanel session={session} />
+    </div>
+  </section>
+</DashboardLayout>

@@ -1,0 +1,22 @@
+---
+const data = [
+  { label: 'Video', pct: 52, color: 'var(--accent-cyan)' },
+  { label: 'Audio', pct: 29, color: 'var(--accent-violet)' },
+  { label: 'Transcripciones', pct: 19, color: 'var(--accent-emerald)' }
+];
+---
+
+<section class="card-surface p-4 space-y-3">
+  <h3 class="mono text-lg">Uso de almacenamiento</h3>
+  {data.map((item) => (
+    <div>
+      <div class="flex justify-between text-sm mb-1">
+        <span>{item.label}</span>
+        <span class="mono">{item.pct}%</span>
+      </div>
+      <div class="h-3 rounded-full bg-slate-700/40 overflow-hidden">
+        <div class="h-full" style={`width:${item.pct}%; background:${item.color}`}></div>
+      </div>
+    </div>
+  ))}
+</section>

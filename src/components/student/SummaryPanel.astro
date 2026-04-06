@@ -1,0 +1,64 @@
+---
+interface Props {
+  session: any;
+}
+
+const { session } = Astro.props;
+
+const keyPoints = [
+  'Comparacion de protocolos y escenarios de uso.',
+  'Preguntas de estudiantes con resolucion en clase.',
+  'Recomendaciones para practica autonoma.'
+];
+
+const tasks = ['Revisar bibliografia sugerida.', 'Resolver ejercicio de aplicacion.', 'Preparar preguntas para la proxima sesion.'];
+---
+
+<article class="card-surface p-4 space-y-4">
+  <header>
+    <h3 class="mono text-lg">Resumen Estructurado</h3>
+    <p class="text-sm text-slate-400 mt-1">{session.summary}</p>
+  </header>
+
+  <section>
+    <h4 class="mono text-sm text-cyan-300">Temas tratados</h4>
+    <div class="mt-2 flex flex-wrap gap-2">
+      {session.topics.map((topic: string) => (
+        <span class="text-xs border border-cyan-500/30 text-cyan-200 rounded-full px-2 py-1">{topic}</span>
+      ))}
+    </div>
+  </section>
+
+  <section>
+    <h4 class="mono text-sm text-violet-300">Puntos clave</h4>
+    <ul class="list-disc pl-5 mt-2 text-sm text-slate-300 space-y-1">
+      {keyPoints.map((point) => (
+        <li>{point}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h4 class="mono text-sm text-emerald-300">Actividades y compromisos</h4>
+    <ul class="list-disc pl-5 mt-2 text-sm text-slate-300 space-y-1">
+      {tasks.map((task) => (
+        <li>{task}</li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="grid grid-cols-2 gap-2 text-sm">
+    <div class="card-surface p-3">
+      <p class="text-slate-400">WER</p>
+      <p class="metric-font text-xl text-amber-300">{session.wer || '--'}%</p>
+    </div>
+    <div class="card-surface p-3">
+      <p class="text-slate-400">DER</p>
+      <p class="metric-font text-xl text-violet-300">{session.der || '--'}%</p>
+    </div>
+    <div class="card-surface p-3 col-span-2">
+      <p class="text-slate-400">Segmentos filtrados</p>
+      <p class="metric-font text-xl text-red-300">{session.totalSegments - session.relevantSegments} / {session.totalSegments || '--'}</p>
+    </div>
+  </section>
+</article>

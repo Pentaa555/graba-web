@@ -1,0 +1,49 @@
+[
+  {
+    "id": "student-001",
+    "name": "Laura Gomez",
+    "email": "lgomez@udistrital.edu.co",
+    "role": "student",
+    "courses": ["course-001", "course-002"],
+    "password": "1234"
+  },
+  {
+    "id": "student-002",
+    "name": "Camilo Perez",
+    "email": "cperez@udistrital.edu.co",
+    "role": "student",
+    "courses": ["course-001", "course-003"],
+    "password": "1234"
+  },
+  {
+    "id": "student-003",
+    "name": "Diana Rojas",
+    "email": "drojas@udistrital.edu.co",
+    "role": "student",
+    "courses": ["course-002", "course-004"],
+    "password": "1234"
+  },
+  {
+    "id": "teacher-001",
+    "name": "Carlos Mendoza",
+    "email": "cmendoza@udistrital.edu.co",
+    "role": "teacher",
+    "courses": ["course-001", "course-003"],
+    "password": "1234"
+  },
+  {
+    "id": "teacher-002",
+    "name": "Andrea Velasquez",
+    "email": "avelasquez@udistrital.edu.co",
+    "role": "teacher",
+    "courses": ["course-002", "course-004"],
+    "password": "1234"
+  },
+  {
+    "id": "admin-001",
+    "name": "Admin UD",
+    "email": "admin@udistrital.edu.co",
+    "role": "admin",
+    "password": "1234"
+  }
+]

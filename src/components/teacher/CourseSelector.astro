@@ -1,0 +1,18 @@
+---
+import courses from '../../data/courses.json';
+
+interface Props {
+  selected?: string;
+}
+
+const { selected } = Astro.props;
+---
+
+<label class="grid gap-2 text-sm text-slate-300">
+  Curso activo
+  <select id="course-selector" class="card-surface p-2 bg-transparent" value={selected}>
+    {courses.map((course) => (
+      <option value={course.id}>{course.code} - {course.name}</option>
+    ))}
+  </select>
+</label>

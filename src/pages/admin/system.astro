@@ -1,0 +1,50 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import sessions from '../../data/sessions.json';
+import SystemLogStream from '../../components/admin/SystemLogStream';
+
+const pipeline = ['FFmpeg', 'DeepFilterNet', 'WhisperX', 'pyannote', 'ECAPA-TDNN', 'BETO', 'FastAPI'];
+const queue = sessions.filter((session) => ['processing', 'pending', 'failed'].includes(session.status));
+---
+
+<DashboardLayout role="admin" title="Sistema | Admin">
+  <section class="space-y-4">
+    <div class="card-surface p-4">
+      <h2 class="mono text-xl">Pipeline status</h2>
+      <div class="grid gap-2 mt-3 sm:grid-cols-2 lg:grid-cols-4">
+        {pipeline.map((component) => (
+          <div class="card-surface p-3 flex items-center justify-between">
+            <span>{component}</span>
+            <span class="status-badge status-processed">Operativo</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="card-surface p-4 overflow-x-auto">
+      <h3 class="mono text-lg mb-3">Cola de procesamiento</h3>
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="text-left text-slate-400">
+            <th>Tarea</th>
+            <th>Curso</th>
+            <th>Estado</th>
+            <th>Tiempo proc.</th>
+          </tr>
+        </thead>
+        <tbody>
+          {queue.map((item, idx) => (
+            <tr class="border-t border-cyan-900/30">
+              <td>{item.id}</td>
+              <td>{item.courseName}</td>
+              <td><span class={`status-badge status-${item.status}`}>{item.status}</span></td>
+              <td>{(idx + 2) * 3}m {(idx + 1) * 8}s</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <SystemLogStream client:load />
+  </section>
+</DashboardLayout>

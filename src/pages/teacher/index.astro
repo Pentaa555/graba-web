@@ -1,0 +1,44 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import sessions from '../../data/sessions.json';
+import MetricCard from '../../components/ui/MetricCard.astro';
+import SessionCard from '../../components/student/SessionCard.astro';
+import ParticipationChart from '../../components/teacher/ParticipationChart';
+
+const teacherSessions = sessions.filter((session) => session.teacherId === 'teacher-001');
+const avgWer = (teacherSessions.reduce((acc, session) => acc + (session.wer || 0), 0) / teacherSessions.filter((s) => s.wer > 0).length || 0).toFixed(1);
+const avgDer = (teacherSessions.reduce((acc, session) => acc + (session.der || 0), 0) / teacherSessions.filter((s) => s.der > 0).length || 0).toFixed(1);
+const totalHours = Math.round(teacherSessions.reduce((acc, session) => acc + session.duration, 0) / 3600);
+const latestProcessed = [...teacherSessions].find((s) => s.status === 'processed') ?? teacherSessions[0];
+---
+
+<DashboardLayout role="teacher" title="Dashboard Docente">
+  <section class="space-y-4">
+    <a href="/teacher/record" class="card-surface p-4 block hover:shadow-cyan-500/20">
+      <h2 class="mono text-xl text-cyan-300">Iniciar Nueva Grabacion -></h2>
+      <p class="text-slate-400 mt-1">Captura, procesamiento y resumen automatico en tiempo real.</p>
+    </a>
+
+    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <MetricCard label="Sesiones grabadas" value={teacherSessions.length} accent="cyan" />
+      <MetricCard label="Promedio WER" value={`${avgWer}%`} accent="amber" />
+      <MetricCard label="Promedio DER" value={`${avgDer}%`} accent="violet" />
+      <MetricCard label="Horas grabadas" value={totalHours} accent="emerald" />
+    </div>
+
+    <div class="grid gap-4 xl:grid-cols-5">
+      <div class="xl:col-span-3 card-surface p-4">
+        <h3 class="mono text-lg mb-3">Sesiones recientes</h3>
+        <div class="grid gap-3 md:grid-cols-2">
+          {teacherSessions.slice(0, 4).map((session) => (
+            <SessionCard session={session} href={`/teacher/session/${session.id}`} compact />
+          ))}
+        </div>
+      </div>
+      <div class="xl:col-span-2">
+        <ParticipationChart client:visible teacherPercent={62} studentPercent={38} />
+        <p class="text-xs text-slate-500 mt-2">Basado en la sesion {latestProcessed?.id}</p>
+      </div>
+    </div>
+  </section>
+</DashboardLayout>

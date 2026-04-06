@@ -1,0 +1,26 @@
+---
+import Card from './Card.astro';
+
+interface Props {
+  label: string;
+  value: string | number;
+  accent?: 'cyan' | 'violet' | 'emerald' | 'amber' | 'red';
+  hint?: string;
+}
+
+const { label, value, accent = 'cyan', hint } = Astro.props;
+
+const accentMap = {
+  cyan: 'var(--accent-cyan)',
+  violet: 'var(--accent-violet)',
+  emerald: 'var(--accent-emerald)',
+  amber: 'var(--accent-amber)',
+  red: 'var(--accent-red)'
+};
+---
+
+<Card>
+  <p class="text-sm text-slate-400">{label}</p>
+  <p class="metric-font text-3xl md:text-4xl mt-2" style={`color:${accentMap[accent]}`}>{value}</p>
+  {hint && <p class="text-xs text-slate-500 mt-2">{hint}</p>}
+</Card>

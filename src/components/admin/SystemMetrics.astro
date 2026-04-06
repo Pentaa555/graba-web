@@ -1,0 +1,28 @@
+---
+import MetricCard from '../ui/MetricCard.astro';
+
+interface Props {
+  sessions: any[];
+  users: any[];
+  courses: any[];
+}
+
+const { sessions, users, courses } = Astro.props;
+
+const processed = sessions.filter((s) => s.status === 'processed').length;
+const processing = sessions.filter((s) => s.status === 'processing').length;
+const failed = sessions.filter((s) => s.status === 'failed').length;
+const pending = sessions.filter((s) => s.status === 'pending').length;
+const successRate = ((processed / sessions.length) * 100).toFixed(1);
+---
+
+<section class="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+  <MetricCard label="Sesiones procesadas" value={processed} accent="emerald" />
+  <MetricCard label="Total usuarios" value={users.length} accent="cyan" />
+  <MetricCard label="Total cursos" value={courses.length} accent="violet" />
+  <MetricCard label="Exito pipeline" value={`${successRate}%`} accent="amber" />
+  <MetricCard label="En cola" value={pending} accent="amber" />
+  <MetricCard label="Procesando" value={processing} accent="cyan" />
+  <MetricCard label="Fallidas" value={failed} accent="red" />
+  <MetricCard label="Almacenamiento" value="78.4 GB" accent="violet" />
+</section>

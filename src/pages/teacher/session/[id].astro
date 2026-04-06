@@ -1,0 +1,30 @@
+---
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import sessions from '../../../data/sessions.json';
+import transcripts from '../../../data/transcripts.json';
+import SessionDetailPanel from '../../../components/teacher/SessionDetailPanel';
+
+export async function getStaticPaths() {
+  return sessions.map((session) => ({ params: { id: session.id } }));
+}
+
+const { id } = Astro.params;
+const session = sessions.find((item) => item.id === id);
+if (!session) {
+  return Astro.redirect('/teacher/sessions');
+}
+
+const transcript = transcripts.find((item) => item.sessionId === session.id);
+const segments = transcript?.segments ?? [];
+---
+
+<DashboardLayout role="teacher" title={`Sesion ${session.id} | Docente`}>
+  <section class="space-y-4">
+    <div class="card-surface p-4">
+      <h2 class="mono text-xl">{session.courseName}</h2>
+      <p class="text-slate-400 mt-1">WER: {session.wer || '--'}% | DER: {session.der || '--'}% | Accuracy filtrado: {session.filteringAccuracy || '--'}%</p>
+    </div>
+
+    <SessionDetailPanel client:load segments={segments} />
+  </section>
+</DashboardLayout>
